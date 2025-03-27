@@ -141,7 +141,6 @@ export class Query<
 
 	constructor(query: QueryDef<TSchema, TTable, TReturn>, z: any = null, enabled: boolean = true) {
 		if (!z) z = getContext('z');
-		this.#setupZero(z, query, enabled);
 		const id = z?.current?.userID ? z?.current.userID : 'anon';
 		this.#query_impl = query as unknown as AdvancedQuery<TSchema, TTable, TReturn>;
 		const default_snapshot = getDefaultSnapshot(this.#query_impl.format.singular);
