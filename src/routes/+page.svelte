@@ -7,11 +7,11 @@
 		server: PUBLIC_SERVER,
 		schema,
 		userID: 'anon',
-		kvStore: 'mem',
+		kvStore: 'mem'
 	});
 
 	const todos_query = z.current.query.todo.related('type');
-	const todos = new Query(todos_query);
+	const todos = $derived(new Query(z as any, todos_query));
 
 	const randID = () => Math.random().toString(36).slice(2);
 

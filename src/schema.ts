@@ -36,7 +36,7 @@ const todoRelationship = relationships(todos, ({ one }) => ({
 	})
 }));
 
-export const schema = createSchema(1, {
+export const schema = createSchema({
 	tables: [types, todos],
 	relationships: [todoRelationship]
 });

@@ -67,7 +67,9 @@ class ViewWrapper<
 		update: () => void
 	) => {
 		const data =
-			snap === undefined ? snap : (structuredClone(snap as ReadonlyJSONValue) as HumanReadable<TReturn>);
+			snap === undefined
+				? snap
+				: (structuredClone(snap as ReadonlyJSONValue) as HumanReadable<TReturn>);
 		this.#snapshot = [data, { type: resultType }] as QueryResult<TReturn>;
 		update(); // Notify Svelte that the data has changed
 	};
@@ -137,8 +139,9 @@ export class Query<
 	details = $state<QueryResultDetails>(null!);
 	#query_impl: AdvancedQuery<TSchema, TTable, TReturn>;
 
-	constructor(query: QueryDef<TSchema, TTable, TReturn>, enabled: boolean = true) {
-		const z = getContext('z') as Z<Schema>;
+	constructor(query: QueryDef<TSchema, TTable, TReturn>, z: any = null, enabled: boolean = true) {
+		if (!z) z = getContext('z');
+		this.#setupZero(z, query, enabled);
 		const id = z?.current?.userID ? z?.current.userID : 'anon';
 		this.#query_impl = query as unknown as AdvancedQuery<TSchema, TTable, TReturn>;
 		const default_snapshot = getDefaultSnapshot(this.#query_impl.format.singular);
